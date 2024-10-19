@@ -1,0 +1,25 @@
+# docker-compose是定义和管理多个容器关系的工具
+version: '3.8'
+
+services:
+  server:
+    # build: 从当前路径构建镜像
+    build:
+      context: './'
+      dockerfile: './Dockerfile'
+    image: test-server
+    container_name: test-server
+    restart: always
+    ports:
+      - 3001:3001
+    # 当前服务启动之前先要把depends_on指定的服务启动起来才行
+    # depends_on:
+    #   - mysql
+    #   - redis
+    networks:
+      - test
+    # extra_hosts:
+    #   - 'host.docker.internal:host-gateway'
+networks:
+  test:
+    driver: bridge
